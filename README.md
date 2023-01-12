@@ -14,5 +14,13 @@ and has the least amount of features I need.
 To run, compile `cmd/proxy` and run it with `-net` and `-addr` to specify the
 network and address (e.g. `-net unix -addr /tmp/komorebi.sock`).
 
+## API
+
+`/<path>?w=&h=&fmt=`
+`<path>` is the source path of the file
+`w` is the width (0 to leave blank)
+`h` is the height (0 to leave blank)
+`fmt` is the format
+
 [^1]: We only reverse proxy to Komorebi when there is a `width=[0-9]+px`
       request query parameter.
