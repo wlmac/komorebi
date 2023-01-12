@@ -1,0 +1,8 @@
+[Unit]
+Description=Komorebi: image resizing reverse proxy
+
+[Socket]
+ListenStream=/tmp/komorebi-%i.sock
+
+[Install]
+WantedBy=multi-user.target

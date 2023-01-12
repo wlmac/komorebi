@@ -1,5 +1,7 @@
 package server
 
+// TODO: invalidate cache when modified
+
 import (
 	"crypto/rand"
 	"encoding/base64"

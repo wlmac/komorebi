@@ -1,0 +1,16 @@
+[Unit]
+Description=Komorebi: image resizing reverse proxy
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+[Service]
+Type=notify
+NotifyAccess=all
+ExecStart=/usr/bin/komorebi-proxy -net unix -addr /tmp/komorebi-%i.sock -src %i
+Restart=on-failure
+RestartSec=1s
+CacheDirectory=komorebi-proxy
+CacheDirectoryMode=700
+PrivateUsers=true
+ProtectHome=true
+DynamicUser=yes
