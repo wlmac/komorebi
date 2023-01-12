@@ -12,5 +12,6 @@ RestartSec=1s
 CacheDirectory=komorebi-proxy
 CacheDirectoryMode=700
 PrivateUsers=true
+PrivateTmp=false
 ProtectHome=true
 DynamicUser=yes
