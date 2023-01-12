@@ -5,6 +5,7 @@ package server
 import (
 	"crypto/rand"
 	"encoding/base64"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"image"
@@ -205,13 +206,25 @@ SupportedFormatFound:
 	}
 	sourcePath = filepath.Join(s.c.SourcePath, sourcePath)
 
-	cachePath := filepath.Join(s.c.CachePath, base64.URLEncoding.EncodeToString([]byte(sourcePath)))
-	w.WriteHeader(200)
-	// TODO: Content-Type
-	err = s.getMedia(editConfig{
+	ec := editConfig{
 		Width:  int(width2),
 		Height: int(height2),
-	}, w, sourcePath, cachePath)
+	}
+	ecj, err := json.Marshal(ec)
+	if err != nil {
+		err = fmt.Errorf("marshal json: %w", err)
+		w.WriteHeader(500)
+		return
+	}
+
+	cachePath := filepath.Join(
+		s.c.CachePath,
+		base64.URLEncoding.EncodeToString([]byte(ecj))+"_"+
+			base64.URLEncoding.EncodeToString([]byte(sourcePath)),
+	)
+	w.WriteHeader(200)
+	// TODO: Content-Type
+	err = s.getMedia(ec, w, sourcePath, cachePath)
 	if err != nil {
 		err = fmt.Errorf("getMedia %s %s: %w", sourcePath, cachePath, err)
 		fmt.Fprint(w, "getting media failed")
