@@ -11,8 +11,6 @@ install: proxy
 
 uninstall:
 	rm -f ${prefix}/usr/bin/komorebi-proxy
-	rm -f ${prefix}/usr/lib/systemd/system/komorebi.service
-	rm -f ${prefix}/usr/lib/systemd/system/komorebi.socket
 	rm -f ${prefix}/usr/lib/systemd/system/komorebi@.service
 	rm -f ${prefix}/usr/lib/systemd/system/komorebi@.socket
 	rm -rf ${etc_prefix}/etc/komorebi
