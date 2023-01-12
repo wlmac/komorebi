@@ -11,8 +11,7 @@ import (
 
 var webpDecodeOptions = (*decoder.Options)(nil)
 
-// var webpEncodeOptions = (*encoder.Options)(nil)
-var webpEncodeOptions = &encoder.Options{}
+var webpEncodeOptions = (*encoder.Options)(nil)
 
 func init() {
 	image.RegisterFormat("webp", "RIFF????WEBP", webpDecode, webpDecodeConfig)

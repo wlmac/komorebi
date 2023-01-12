@@ -76,10 +76,13 @@ func (s *server) getMedia(ec editConfig, w io.Writer, sourcePath, cachePath stri
 				if rmErr != nil {
 					log.Printf("remove cache: %S", rmErr)
 				}
+				panic(err)
 			}
 		}()
+		log.Printf("editing %s → %s", sourcePath, cachePath)
 		err = s.editMedia(ec, w2, sourcePath)
 		if err != nil {
+			log.Printf("editing failed %s → %s: removing cache", sourcePath, cachePath)
 			rmErr := os.Remove(cachePath)
 			if rmErr != nil {
 				err = rmErr
@@ -210,7 +213,7 @@ SupportedFormatFound:
 		Height: int(height2),
 	}, w, sourcePath, cachePath)
 	if err != nil {
-		err = fmt.Errorf("getMedia: %w", err)
+		err = fmt.Errorf("getMedia %s %s: %w", sourcePath, cachePath, err)
 		fmt.Fprint(w, "getting media failed")
 		return
 	}
