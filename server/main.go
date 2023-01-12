@@ -51,6 +51,7 @@ func New(config Config) (http.Handler, error) {
 
 type editConfig struct {
 	Width, Height int
+	Format        string
 }
 
 // getMedia gets an edited image from using sourcePath and cachePath.
@@ -209,6 +210,7 @@ SupportedFormatFound:
 	ec := editConfig{
 		Width:  int(width2),
 		Height: int(height2),
+		Format: "webp",
 	}
 	ecj, err := json.Marshal(ec)
 	if err != nil {
