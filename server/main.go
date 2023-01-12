@@ -24,8 +24,6 @@ import (
 
 var SupportedFormats = map[string]struct{}{
 	"webp": struct{}{},
-	"jpeg": struct{}{},
-	"png":  struct{}{},
 }
 
 type Config struct {
@@ -173,30 +171,20 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	formats := q["fmt"]
-	if len(formats) == 0 {
-		err = errors.New("must specify formats")
+	format := q.Get("fmt")
+	if format == 0 {
+		err = errors.New("must specify format")
 		w.WriteHeader(422)
-		fmt.Fprint(w, "must specify formats")
+		fmt.Fprint(w, "must specify format")
 		return
 	}
-	if len(formats) > len(SupportedFormats) {
-		err = errors.New("too many formats")
+	if _, ok := SupportedFormats[format]; !ok {
+		err = errors.New("unsupported format")
 		w.WriteHeader(422)
-		fmt.Fprint(w, "too many formats")
+		fmt.Fprint(w, "unsupported format")
 		return
 	}
-	for _, format := range formats {
-		_, ok := SupportedFormats[format]
-		if ok {
-			goto SupportedFormatFound
-		}
-	}
-	err = fmt.Errorf("only unsupported formats (%s) specified", formats)
-	w.WriteHeader(422)
-	fmt.Fprint(w, "only unsupported formats specified")
-	return
-SupportedFormatFound:
+
 	var sourcePath string
 	sourcePath, err = url.JoinPath("/", r.URL.Path)
 	if err != nil {
@@ -210,7 +198,7 @@ SupportedFormatFound:
 	ec := editConfig{
 		Width:  int(width2),
 		Height: int(height2),
-		Format: "webp",
+		Format: format,
 	}
 	ecj, err := json.Marshal(ec)
 	if err != nil {
