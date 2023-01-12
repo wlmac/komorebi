@@ -133,9 +133,11 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Add("Server", "Komorebi/0")
 	w.Header().Add("X-Request-ID", rid)
-	if err != nil {
-		log.Printf("request %s: error %s", rid, err)
-	}
+	defer func() {
+		if err != nil {
+			log.Printf("request %s: error %s", rid, err)
+		}
+	}()
 
 	q := r.URL.Query()
 	width := q.Get("w")
