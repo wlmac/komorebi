@@ -17,6 +17,8 @@ network and address (e.g. `-net unix -addr /tmp/komorebi.sock`).
 ## API
 
 `/<path>?w=&h=&fmt=`
+
+where
 `<path>` is the source path of the file
 `w` is the width (0 to leave blank)
 `h` is the height (0 to leave blank)
