@@ -10,6 +10,8 @@ In order to speed up loading times, I developed this to transparently[^1]
 reduce bandwidth used.  A quick search did not turn up a simple reverse proxy
 that I could put transparently (i.e. disables itself if not explicitly used)
 and has the least amount of features I need.
+(Actually, [Patrick](https://github.com/ApocalypseCalculator)
+found https://github.com/cshum/imagor . Oh well...)
 
 To run, compile `cmd/proxy` and run it with `-net` and `-addr` to specify the
 network and address (e.g. `-net unix -addr /tmp/komorebi.sock`).
