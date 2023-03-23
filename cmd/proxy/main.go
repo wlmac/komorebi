@@ -27,6 +27,7 @@ import (
 
 	"github.com/nyiyui/komorebi/notify"
 	"github.com/nyiyui/komorebi/server"
+	"gopkg.in/gographics/imagick.v3/imagick"
 )
 
 var lisNet string
@@ -47,6 +48,9 @@ If not, see <https://www.gnu.org/licenses/>.
 	flag.StringVar(&lisAddr, "addr", "", "listen address (e.g. /tmp/komorebi.sock)")
 	flag.StringVar(&sourcePath, "src", "", "source media path")
 	flag.Parse()
+
+	imagick.Initialize()
+	defer imagick.Terminate()
 
 	lis, err := net.Listen(lisNet, lisAddr)
 	if err != nil {

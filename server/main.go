@@ -172,7 +172,7 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	format := q.Get("fmt")
-	if format == 0 {
+	if format == "" {
 		err = errors.New("must specify format")
 		w.WriteHeader(422)
 		fmt.Fprint(w, "must specify format")

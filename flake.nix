@@ -22,13 +22,14 @@
         inherit system;
       };
       ldflags = pkgs: [];
-      deps = pkgs: with pkgs; [ libwebp ];
+      deps = pkgs: with pkgs; [ libwebp imagemagick ];
     in rec {
       devShells = let pkgs = nixpkgsFor.${system}; in { default = pkgs.mkShell {
           buildInputs = with pkgs; [
             go_1_19
             git
           ] ++ (deps pkgs);
+          nativeBuildInputs = with pkgs; [ pkg-config ];
       }; };
       packages = let
         pkgs = nixpkgsFor.${system};
@@ -40,8 +41,9 @@
           tags = [ "nix" "sdnotify" ];
           #vendorSha256 = pkgs.lib.fakeSha256;
           # run ./base64-hex on the sha256- hash returned when using fakeSha256 to update
-          vendorSha256 = "ce0bb86722d916d3da3ae5b9384af2615af550d7df2c7489425ed3c513da7784";
+          vendorSha256 = "c9b77a2f54f03f8de5ee77f94a799b7ceebd2b823af6ee5b6c8bea4f354c3eff";
           buildInputs = deps pkgs;
+          nativeBuildInputs = with pkgs; [ pkg-config ];
         };
       in
       {
