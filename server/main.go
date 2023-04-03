@@ -32,6 +32,12 @@ type Config struct {
 
 	CachePath string
 	// CachePath specifies path of directory to store cached media under.
+
+	MaxWidth uint
+	// MaxWidth specifies maximum allowable width.
+
+	MaxHeight uint
+	// MaxHeight specifies maximum allowable height.
 }
 
 type server struct {
@@ -170,6 +176,11 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprint(w, "cannot parse height")
 			return
 		}
+	}
+	if width2 > s.c.MaxWidth || height2 > s.c.MaxHeight {
+		w.WriteHeader(422)
+		fmt.Fprint(w, "dimensions exceed allowance")
+		return
 	}
 	format := q.Get("fmt")
 	if format == "" {
