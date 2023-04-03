@@ -9,9 +9,9 @@ import (
 	"github.com/kolesa-team/go-webp/webp"
 )
 
-var webpDecodeOptions = (*decoder.Options)(nil)
+var webpDecodeOptions = &decoder.Options{}
 
-var webpEncodeOptions = (*encoder.Options)(nil)
+var webpEncodeOptions = &encoder.Options{}
 
 func init() {
 	image.RegisterFormat("webp", "RIFF????WEBP", webpDecode, webpDecodeConfig)
