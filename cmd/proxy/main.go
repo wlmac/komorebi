@@ -17,6 +17,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
@@ -33,6 +34,7 @@ import (
 var lisNet string
 var lisAddr string
 var sourcePath string
+var configRaw string
 
 func main() {
 	fmt.Print(`Komorebi  Copyright (C) 2023  nyiyui
@@ -47,18 +49,23 @@ If not, see <https://www.gnu.org/licenses/>.
 	flag.StringVar(&lisNet, "net", "", "listen network (e.g. unix)")
 	flag.StringVar(&lisAddr, "addr", "", "listen address (e.g. /tmp/komorebi.sock)")
 	flag.StringVar(&sourcePath, "src", "", "source media path")
+	flag.StringVar(&configRaw, "cfg", "", "config in JSON (not path)")
 	flag.Parse()
 
 	imagick.Initialize()
 	defer imagick.Terminate()
 
+	config := server.Config{}
+	err = json.Unmarshal(&config)
+	if err != nil {
+		log.Fatalf("parse config: %s", err)
+	}
+	config.SourcePath = sourcePath
+	config.CachePath = filepath.Join(os.Getenv("CACHE_DIRECTORY"), "media")
+
 	lis, err := net.Listen(lisNet, lisAddr)
 	if err != nil {
 		log.Fatalf("listen: %s", err)
-	}
-	config := server.Config{
-		SourcePath: sourcePath,
-		CachePath:  filepath.Join(os.Getenv("CACHE_DIRECTORY"), "media"),
 	}
 	handler, err := server.New(config)
 	if err != nil {
