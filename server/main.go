@@ -177,7 +177,7 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	if width2 > int64(s.c.MaxWidth) || height2 >int64( s.c.MaxHeight) {
+	if (s.c.MaxWidth != 0 && width2 > int64(s.c.MaxWidth)) || (s.c.MaxHeight != 0 && height2 > int64(s.c.MaxHeight)) {
 		w.WriteHeader(422)
 		fmt.Fprint(w, "dimensions exceed allowance")
 		return

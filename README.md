@@ -30,7 +30,7 @@ where
 
 ## TODO
 
-- [ ] clamp width and height of the resultant image
+- [x] clamp width and height of the resultant image
 - [ ] store metrics and clear cache from most unused
 - [ ] more formats (JPEG, PNG, AVIF)
 

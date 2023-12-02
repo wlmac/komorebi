@@ -56,9 +56,11 @@ If not, see <https://www.gnu.org/licenses/>.
 	defer imagick.Terminate()
 
 	config := server.Config{}
-	err := json.Unmarshal([]byte(configRaw), &config)
-	if err != nil {
-		log.Fatalf("parse config: %s", err)
+	if len(configRaw) > 0 {
+		err := json.Unmarshal([]byte(configRaw), &config)
+		if err != nil {
+			log.Fatalf("parse config: %s", err)
+		}
 	}
 	config.SourcePath = sourcePath
 	config.CachePath = filepath.Join(os.Getenv("CACHE_DIRECTORY"), "media")
