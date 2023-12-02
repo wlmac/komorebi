@@ -56,7 +56,7 @@ If not, see <https://www.gnu.org/licenses/>.
 	defer imagick.Terminate()
 
 	config := server.Config{}
-	err = json.Unmarshal(&config)
+	err := json.Unmarshal([]byte(configRaw), &config)
 	if err != nil {
 		log.Fatalf("parse config: %s", err)
 	}
